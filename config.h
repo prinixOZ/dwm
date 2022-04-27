@@ -5,7 +5,7 @@
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#define CMD(cmd) { .v = (const char*[]){ "/bin/bash", "-c", cmd, NULL } }
 #include "selfrestart.c"
 
 /* appearance */
@@ -14,6 +14,9 @@ static const unsigned int gappx     = 10;        /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
+static const int usealtbar          = 1;        /* 1 means use non-dwm status bar */
+static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
+static const char *altbarcmd        = "$HOME/bar.sh"; /* Alternate bar launch command */
 static const char *fonts[]          = { "Hack:size=12" };
 static const char dmenufont[]       = "Hack:size=10";
 static char normbgcolor[]           = "#222222";
@@ -44,6 +47,7 @@ static const Layout layouts[] = {{ "[T]",tile }, { "[F]",NULL },{ "[M]",monocle 
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run","-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL, "-nb", "#0F0F0F", "-p", "Run: " };
 static const char *termcmd[]  = { "alacritty", NULL };
+static const char *lockcmd[] = {"i3lock","-c", "000000", "-R", "1000", "-F", "100", "-O", "0", "-o", "ffffff", "-l", "ffffff", "--no-keyboard-layout", "-T", "1"};
 
 static const char *tags[] = { "", "", "", "", "", "", "", "", "" };
 
@@ -88,7 +92,7 @@ static Key keys[] = {
 { MODKEY|ShiftMask,             XK_j,           rotatestack,                    {.i = +1 } },//                               |
 { MODKEY|ShiftMask,             XK_k,           rotatestack,                    {.i = -1 } },//                               |
 { MODKEY,                       XK_q,           killclient,                     {0} },//                                      |
-{ MODKEY1|ControlMask,          XK_Return,      spawn,                          SHCMD("killall xinit")},//                    |
+{ MODKEY1|ControlMask,          XK_Return,      spawn,                          CMD("killall xinit")},//                      |
 //=============================================================================================================================
 //                                                                                                                            |
 //=============================================================================================================================
@@ -100,53 +104,53 @@ static Key keys[] = {
 //=============================================================================================================================
 // =======================================>       BASIC APPLICATIONS     <====================================================|
 //## RUN LAUNCHER                                                                                                             |
-{ MODKEY,                       XK_d,           spawn,                          SHCMD("dmenu-picom") },//                     |
+{ MODKEY,                       XK_d,           spawn,                          CMD("dmenu-picom") },//                       |
 //## TERMINAL                                                                                                                 |
-{ MODKEY|ShiftMask,             XK_Return,      spawn,                          SHCMD("alacritty") },//                       |
-{ MODKEY,                       XK_Return,      spawn,                          SHCMD("terminal.sh") },//                     |
+{ MODKEY,                       XK_Return,      spawn,                          CMD("terminal.sh") },//                       |
 //## BROWSER                                                                                                                  |
-{ MODKEY,                       XK_p,           spawn,                          SHCMD("keepmenu") },//                        |
-{ MODKEY,                       XK_b,           spawn,                          SHCMD("librewolf -P default") },//            |
-{ MODKEY|ShiftMask,             XK_b,           spawn,                          SHCMD("librewolf -P") },//                    |
+{ MODKEY,                       XK_a,           spawn,                          CMD("librewolf -P default") },//              |
+{ MODKEY|ShiftMask,             XK_b,           spawn,                          CMD("librewolf -P") },//                      |
+{ MODKEY,                       XK_b,           spawn,                          CMD("brave") },//                             |
 //## FILE MANAGER                                                                                                             |
-{ MODKEY,                       XK_e,           spawn,                          SHCMD("alacritty -e lfub") },//               |
-{ MODKEY|ShiftMask,             XK_e,           spawn,                          SHCMD("thunar") },//                          |
+{ MODKEY,                       XK_s,           spawn,                          CMD("alacritty -e lfub") },//                 |
 //=============================================================================================================================
 //                                                                                                                            |
 //=============================================================================================================================
-// ========================================>   MUSIC PLAYER COMMANDS   <======================================================|
-{ MODKEY1,                      XK_space,       spawn,                          SHCMD("dunstctl close") },//                  |
-{ MODKEY1|ShiftMask,            XK_space,       spawn,                          SHCMD("dunstctl closeall") },//               |
+// ========================================>  DUNST CONTROL COMMANDS   <======================================================|
+{ MODKEY1,                      XK_space,       spawn,                          CMD("dunstctl close") },//                  |
+{ MODKEY1|ShiftMask,            XK_space,       spawn,                          CMD("dunstctl closeall") },//               |
 //                                                                                                                            |
 //=============================================================================================================================
 //                                                                                                                            |
 //=============================================================================================================================
 // =============================================>    YTFZF   <================================================================|
-{ MODKEY,                       XK_F1,          spawn,                         SHCMD("ytfzf -D")},//                          |
-{ MODKEY,                       XK_F2,          spawn,                         SHCMD("ytfzf -D -c SI --sort date")},//        |
-{ MODKEY,                       XK_F3,          spawn,                         SHCMD("ytfzf-channel")},//                     |
-{ MODKEY,                       XK_F4,          spawn,                         SHCMD("ytfzf-plylist")},//                     |
-{ MODKEY,                       XK_F5,          spawn,                         SHCMD("ytfzf -c invidious-popular -D 'a'")},// |
-{ MODKEY,                       XK_F6,          spawn,                         SHCMD("ytfzf -D -H")},//                       |
+{ MODKEY,                       XK_F1,          spawn,                         CMD("ytfzf -D")},//                          |
+{ MODKEY,                       XK_F2,          spawn,                         CMD("ytfzf -D -c SI --sort date")},//        |
+{ MODKEY,                       XK_F3,          spawn,                         CMD("ytfzf-channel")},//                     |
+{ MODKEY,                       XK_F4,          spawn,                         CMD("ytfzf-plylist")},//                     |
+{ MODKEY,                       XK_F5,          spawn,                         CMD("ytfzf -c invidious-popular -D 'a'")},// |
+{ MODKEY,                       XK_F6,          spawn,                         CMD("ytfzf -D -H")},//                       |
 //=============================================================================================================================
 //                                                                                                                            |
 //=============================================================================================================================
 // ========================================>   MUSIC PLAYER COMMANDS   <======================================================|
-{ MODKEY|ControlMask,           XK_space,       spawn,                          SHCMD("playerctl play-pause") },//            |
-{ MODKEY|ControlMask,           XK_comma,       spawn,                          SHCMD("playerctl previous") },//              |
-{ MODKEY|ControlMask,           XK_period,      spawn,                          SHCMD("playerctl next") },//                  |
+{ MODKEY|ControlMask,           XK_space,       spawn,                          CMD("playerctl play-pause") },//            |
+{ MODKEY|ControlMask,           XK_comma,       spawn,                          CMD("playerctl previous") },//              |
+{ MODKEY|ControlMask,           XK_period,      spawn,                          CMD("playerctl next") },//                  |
 //                                                                                                                            |
 //=============================================================================================================================
 // =======================================>    TERMINAL APPLICATIONS   <======================================================|
-{ MODKEY,                       XK_o,           spawn,  SHCMD("alacritty --title='float-alacritty' -e pulsemixer") },//       |
-{ MODKEY,                       XK_c,           spawn,  SHCMD("alacritty -e gotop") },//                                      |
-{ MODKEY,                       XK_u,           spawn,  SHCMD("alacritty --title='float-alacritty' -e fish --command pu") },//|
+{ MODKEY,                       XK_o,           spawn,  CMD("alacritty --title='float-alacritty' -e pulsemixer") },//       |
+{ MODKEY,                       XK_c,           spawn,  CMD("alacritty -e gotop") },//                                      |
+{ MODKEY,                       XK_u,           spawn,  CMD("alacritty --title='float-alacritty' -e fish --command pu") },//|
 //=============================================================================================================================
 //
 //=============================================================================================================================
-{ MODKEY,                       XK_x,      spawn,          SHCMD("i3lock -c 000000 -R 1000 -F 100 -O 0 -o ffffff -l ffffff --no-keyboard-layout -T 1") },
-{ MODKEY,                       XK_r,      spawn,          SHCMD("polywal")},
-};
+{ MODKEY,                       XK_x,           spawn,                          {.v = lockcmd } },//                          |
+{ MODKEY|ShiftMask,             XK_n,           spawn,                          CMD("vpn") },//                             |
+{ MODKEY|ShiftMask,             XK_r,           spawn,                          CMD("apolybar")},//                          |
+{ MODKEY,                       XK_r,           spawn,                          CMD("polywal")},//                          |
+};//                                                                                                                          |
 //=============================================================================================================================
 //=============================================================================================================================
 
@@ -164,3 +168,22 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
+
+static const char *ipcsockpath = "/tmp/dwm.sock";
+static IPCCommand ipccommands[] = {
+  IPCCOMMAND(  view,                1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  toggleview,          1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  tag,                 1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  toggletag,           1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  tagmon,              1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  focusmon,            1,      {ARG_TYPE_SINT}   ),
+  IPCCOMMAND(  focusstack,          1,      {ARG_TYPE_SINT}   ),
+  IPCCOMMAND(  zoom,                1,      {ARG_TYPE_NONE}   ),
+  IPCCOMMAND(  incnmaster,          1,      {ARG_TYPE_SINT}   ),
+  IPCCOMMAND(  killclient,          1,      {ARG_TYPE_SINT}   ),
+  IPCCOMMAND(  togglefloating,      1,      {ARG_TYPE_NONE}   ),
+  IPCCOMMAND(  setmfact,            1,      {ARG_TYPE_FLOAT}  ),
+  IPCCOMMAND(  setlayoutsafe,       1,      {ARG_TYPE_PTR}    ),
+  IPCCOMMAND(  quit,                1,      {ARG_TYPE_NONE}   )
+};
+
