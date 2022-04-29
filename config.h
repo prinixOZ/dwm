@@ -108,7 +108,7 @@ static Key keys[] = {
 { MODKEY|ShiftMask,             XK_d,           spawn,                          CMD("dmenurun-picom") },//                    |
 { MODKEY|ShiftMask,             XK_p,           spawn,                          CMD("keepmenu") },//                          |
 //## TERMINAL                                                                                                                 |
-{ MODKEY,                       XK_Return,      spawn,                          CMD("terminal.sh") },//                       |
+{ MODKEY,                       XK_Return,      spawn,                          CMD("alacritty -e atmux") },//                |
 //## BROWSER                                                                                                                  |
 { MODKEY,                       XK_a,           spawn,                          CMD("librewolf -P default") },//              |
 { MODKEY|ShiftMask,             XK_b,           spawn,                          CMD("librewolf -P") },//                      |
