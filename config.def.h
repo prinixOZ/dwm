@@ -105,6 +105,8 @@ static Key keys[] = {
 // =======================================>       BASIC APPLICATIONS     <====================================================|
 //## RUN LAUNCHER                                                                                                             |
 { MODKEY,                       XK_d,           spawn,                          CMD("dmenu-picom") },//                       |
+{ MODKEY|ShiftMask,             XK_d,           spawn,                          CMD("dmenurun-picom") },//                    |
+{ MODKEY|ShiftMask,             XK_p,           spawn,                          CMD("keepmenu") },//                          |
 //## TERMINAL                                                                                                                 |
 { MODKEY,                       XK_Return,      spawn,                          CMD("terminal.sh") },//                       |
 //## BROWSER                                                                                                                  |
@@ -117,39 +119,46 @@ static Key keys[] = {
 //                                                                                                                            |
 //=============================================================================================================================
 // ========================================>  DUNST CONTROL COMMANDS   <======================================================|
-{ MODKEY1,                      XK_space,       spawn,                          CMD("dunstctl close") },//                  |
-{ MODKEY1|ShiftMask,            XK_space,       spawn,                          CMD("dunstctl closeall") },//               |
+{ MODKEY1,                      XK_space,       spawn,                          CMD("dunstctl close") },//                    |
+{ MODKEY1|ShiftMask,            XK_space,       spawn,                          CMD("dunstctl closeall") },//                 |
+//                                                                                                                            |
+//=============================================================================================================================
+//                                                                                                                            |
+//=============================================================================================================================
+// ========================================>       ROTATE KEYS         <======================================================|
+{ MODKEY|ShiftMask,             XK_period,      spawn,                          CMD("xrandr -o left") },//                    |
+{ MODKEY|ShiftMask,             XK_comma,       spawn,                          CMD("xrandr -o normal") },//                  |
 //                                                                                                                            |
 //=============================================================================================================================
 //                                                                                                                            |
 //=============================================================================================================================
 // =============================================>    YTFZF   <================================================================|
-{ MODKEY,                       XK_F1,          spawn,                         CMD("ytfzf -D")},//                          |
-{ MODKEY,                       XK_F2,          spawn,                         CMD("ytfzf -D -c SI --sort date")},//        |
-{ MODKEY,                       XK_F3,          spawn,                         CMD("ytfzf-channel")},//                     |
-{ MODKEY,                       XK_F4,          spawn,                         CMD("ytfzf-plylist")},//                     |
-{ MODKEY,                       XK_F5,          spawn,                         CMD("ytfzf -c invidious-popular -D 'a'")},// |
-{ MODKEY,                       XK_F6,          spawn,                         CMD("ytfzf -D -H")},//                       |
+{ MODKEY,                       XK_F1,          spawn,                         CMD("ytfzf -D")},//                            |
+{ MODKEY,                       XK_F2,          spawn,                         CMD("ytfzf -D -c SI --sort date")},//          |
+{ MODKEY,                       XK_F3,          spawn,                         CMD("ytfzf-channel")},//                       |
+{ MODKEY,                       XK_F4,          spawn,                         CMD("ytfzf-plylist")},//                       |
+{ MODKEY,                       XK_F5,          spawn,                         CMD("ytfzf -c invidious-popular -D 'a'")},//   |
+{ MODKEY,                       XK_F6,          spawn,                         CMD("ytfzf -D -H")},//                         |
 //=============================================================================================================================
 //                                                                                                                            |
 //=============================================================================================================================
 // ========================================>   MUSIC PLAYER COMMANDS   <======================================================|
-{ MODKEY|ControlMask,           XK_space,       spawn,                          CMD("playerctl play-pause") },//            |
-{ MODKEY|ControlMask,           XK_comma,       spawn,                          CMD("playerctl previous") },//              |
-{ MODKEY|ControlMask,           XK_period,      spawn,                          CMD("playerctl next") },//                  |
+{ MODKEY|ControlMask,           XK_space,       spawn,                          CMD("playerctl play-pause") },//              |
+{ MODKEY|ControlMask,           XK_comma,       spawn,                          CMD("playerctl previous") },//                |
+{ MODKEY|ControlMask,           XK_period,      spawn,                          CMD("playerctl next") },//                    |
 //                                                                                                                            |
 //=============================================================================================================================
 // =======================================>    TERMINAL APPLICATIONS   <======================================================|
-{ MODKEY,                       XK_o,           spawn,  CMD("alacritty --title='float-alacritty' -e pulsemixer") },//       |
-{ MODKEY,                       XK_c,           spawn,  CMD("alacritty -e gotop") },//                                      |
-{ MODKEY,                       XK_u,           spawn,  CMD("alacritty --title='float-alacritty' -e fish --command pu") },//|
+{ MODKEY,                       XK_o,           spawn,  CMD("alacritty --title='float-alacritty' -e pulsemixer") },//         |
+{ MODKEY,                       XK_c,           spawn,  CMD("alacritty -e gotop") },//                                        |
+{ MODKEY,                       XK_u,           spawn,  CMD("alacritty --title='float-alacritty' -e fish --command pu") },//  |
 //=============================================================================================================================
-//
+//                                                                                                                            |
 //=============================================================================================================================
 { MODKEY,                       XK_x,           spawn,                          {.v = lockcmd } },//                          |
-{ MODKEY|ShiftMask,             XK_n,           spawn,                          CMD("vpn") },//                             |
-{ MODKEY|ShiftMask,             XK_r,           spawn,                          CMD("apolybar")},//                          |
-{ MODKEY,                       XK_r,           spawn,                          CMD("polywal")},//                          |
+{ MODKEY|ShiftMask,             XK_n,           spawn,                          CMD("vpn") },//                               |
+{ MODKEY|ShiftMask,             XK_r,           spawn,                          CMD("apolybar")},//                           |
+{ MODKEY,                       XK_r,           spawn,                          CMD("polywal")},//                            |
 };//                                                                                                                          |
 //=============================================================================================================================
 //=============================================================================================================================
