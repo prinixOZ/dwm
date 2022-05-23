@@ -49,7 +49,7 @@ static const char *dmenucmd[] = { "dmenu_run","-m", dmenumon, "-fn", dmenufont, 
 static const char *termcmd[]  = { "alacritty", NULL };
 static const char *lockcmd[] = {"i3lock","-c", "000000", "-R", "1000", "-F", "100", "-O", "0", "-o", "ffffff", "-l", "ffffff", "--no-keyboard-layout", "-T", "1"};
 
-static const char *tags[] = { "", "", "", "", "", "", "", "", "" };
+static const char *tags[] = { "", "", "", "", "", "6", "7", "", "", "", "" };
 
 static const Rule rules[] = {
 	/* class            instance            title                     tags mask            isfloating         monitor */
@@ -71,6 +71,8 @@ static Key keys[] = {
 	TAGKEYS(                    XK_7,           6)//                                                                          |
 	TAGKEYS(                    XK_8,           7)//                                                                          |
 	TAGKEYS(                    XK_9,           8)//                                                                          |
+	TAGKEYS(                    XK_0,           9)//                                                                          |
+	TAGKEYS(                    XK_m,           10)//                                                                          |
 //                                                                                                                            |
 //=============================================================================================================================
 // ==========================================>    MOVEMENTS KEYS    <=========================================================|
@@ -108,9 +110,10 @@ static Key keys[] = {
 { MODKEY|ShiftMask,             XK_d,           spawn,                          CMD("dmenurun-picom") },//                    |
 { MODKEY|ShiftMask,             XK_p,           spawn,                          CMD("keepmenu") },//                          |
 //## TERMINAL                                                                                                                 |
-{ MODKEY,                       XK_Return,      spawn,                          CMD("alacritty -e atmux") },//                |
+{ MODKEY,                       XK_Return,      spawn,                          CMD("alacritty") },//                |
 //## BROWSER                                                                                                                  |
 { MODKEY,                       XK_a,           spawn,                          CMD("librewolf -P default") },//              |
+{ MODKEY|ShiftMask,             XK_a,           spawn,                          CMD("torbrowser-launcher") },//               |
 { MODKEY|ShiftMask,             XK_b,           spawn,                          CMD("librewolf -P") },//                      |
 { MODKEY,                       XK_b,           spawn,                          CMD("brave") },//                             |
 //## FILE MANAGER                                                                                                             |
@@ -133,11 +136,11 @@ static Key keys[] = {
 //                                                                                                                            |
 //=============================================================================================================================
 // =============================================>    YTFZF   <================================================================|
-{ MODKEY,                       XK_F1,          spawn,                         CMD("ytfzf -D")},//                            |
+{ MODKEY,                       XK_F1,          spawn,                         CMD("ytfzf -D -l")},//                         |
 { MODKEY,                       XK_F2,          spawn,                         CMD("ytfzf -D -c SI --sort date")},//          |
-{ MODKEY,                       XK_F3,          spawn,                         CMD("ytfzf-channel")},//                       |
+{ MODKEY,                       XK_F3,          spawn,                         CMD("ytfzf-channel -D")},//                    |
 { MODKEY,                       XK_F4,          spawn,                         CMD("ytfzf-plylist")},//                       |
-{ MODKEY,                       XK_F5,          spawn,                         CMD("ytfzf -c invidious-popular -D 'a'")},//   |
+{ MODKEY,                       XK_F5,          spawn,                         CMD("mpv-yt")},//   |
 { MODKEY,                       XK_F6,          spawn,                         CMD("ytfzf -D -H")},//                         |
 //=============================================================================================================================
 //                                                                                                                            |
@@ -157,8 +160,11 @@ static Key keys[] = {
 //=============================================================================================================================
 { MODKEY,                       XK_x,           spawn,                          {.v = lockcmd } },//                          |
 { MODKEY|ShiftMask,             XK_n,           spawn,                          CMD("vpn") },//                               |
+{ MODKEY,                       XK_w,           spawn,                          CMD("mpv /home/ps/.Entertainment/course/Lua/Lua.mp4") },//                               |
 { MODKEY|ShiftMask,             XK_r,           spawn,                          CMD("apolybar")},//                           |
 { MODKEY,                       XK_r,           spawn,                          CMD("polywal")},//                            |
+{ 0,                            XK_Print,       spawn,                          CMD("scrot") },//                          |
+{ 0|ShiftMask,                  XK_Print,       spawn,                          CMD("scrot -s") },//                          |
 };//                                                                                                                          |
 //=============================================================================================================================
 //=============================================================================================================================
